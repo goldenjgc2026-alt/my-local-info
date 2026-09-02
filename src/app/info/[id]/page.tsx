@@ -70,18 +70,26 @@ export default async function DetailPage({
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 group-hover:bg-amber-200 text-amber-900 transition-colors">
               &larr;
             </span>
-            <span>전체 생활 정보 목록</span>
+            <span>생활 정보 목록</span>
           </Link>
 
-          <span
-            className={`px-3 py-1 text-xs font-bold rounded-full border ${
-              isEvent
-                ? "bg-amber-100 text-amber-800 border-amber-300"
-                : "bg-emerald-100 text-emerald-800 border-emerald-300"
-            }`}
-          >
-            {item.category} 안내
-          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/blog"
+              className="text-xs font-semibold text-slate-600 hover:text-amber-600 px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
+            >
+              블로그
+            </Link>
+            <span
+              className={`px-3 py-1 text-xs font-bold rounded-full border ${
+                isEvent
+                  ? "bg-amber-100 text-amber-800 border-amber-300"
+                  : "bg-emerald-100 text-emerald-800 border-emerald-300"
+              }`}
+            >
+              {item.category} 안내
+            </span>
+          </div>
         </div>
       </header>
 

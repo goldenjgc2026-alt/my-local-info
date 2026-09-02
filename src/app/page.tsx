@@ -27,8 +27,8 @@ export default function HomePage() {
       {/* 상단 네비게이션 & 헤더 */}
       <header className="border-b border-amber-200/60 bg-white/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-white text-xl shadow-md shadow-amber-200">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-white text-xl shadow-md shadow-amber-200 group-hover:scale-105 transition-transform">
               🏡
             </span>
             <div>
@@ -44,11 +44,28 @@ export default function HomePage() {
                 우리 동네 축제·행사 일정과 정부·지자체 지원금 알리미
               </p>
             </div>
-          </div>
+          </Link>
 
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>최신 데이터 갱신 완료 ({localData.lastUpdated})</span>
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1.5 text-sm font-semibold">
+              <Link
+                href="/"
+                className="px-3 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold shadow-sm shadow-amber-200"
+              >
+                생활 정보
+              </Link>
+              <Link
+                href="/blog"
+                className="px-3 py-1.5 rounded-xl text-slate-600 hover:text-amber-600 hover:bg-amber-50 text-xs font-semibold transition-colors"
+              >
+                블로그
+              </Link>
+            </nav>
+
+            <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
+              <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>데이터 갱신 ({localData.lastUpdated})</span>
+            </div>
           </div>
         </div>
       </header>
@@ -111,7 +128,7 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <Link href={`/info/${event.id}`} className="block">
+                  <Link href="/blog" className="block">
                     <h4 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug">
                       {event.title}
                     </h4>
@@ -145,10 +162,10 @@ export default function HomePage() {
                     ))}
                   </div>
                   <Link
-                    href={`/info/${event.id}`}
+                    href="/blog"
                     className="inline-flex items-center text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline shrink-0 ml-2"
                   >
-                    상세보기 &rarr;
+                    자세히 보기 &rarr;
                   </Link>
                 </div>
               </article>
@@ -191,7 +208,7 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <Link href={`/info/${benefit.id}`} className="block">
+                  <Link href="/blog" className="block">
                     <h4 className="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
                       {benefit.title}
                     </h4>
@@ -225,10 +242,10 @@ export default function HomePage() {
                     ))}
                   </div>
                   <Link
-                    href={`/info/${benefit.id}`}
+                    href="/blog"
                     className="inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 hover:underline shrink-0 ml-2"
                   >
-                    신청 안내 &rarr;
+                    자세히 보기 &rarr;
                   </Link>
                 </div>
               </article>
