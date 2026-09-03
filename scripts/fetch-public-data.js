@@ -92,7 +92,18 @@ async function main() {
   const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${geminiApiKey}`;
 
   const prompt = `아래 공공데이터 1건을 분석해서 JSON 객체로 변환해줘. 형식:
-{id: 숫자, name: 서비스명, category: '행사' 또는 '혜택', startDate: 'YYYY-MM-DD', endDate: 'YYYY-MM-DD', location: 장소 또는 기관명, target: 지원대상, summary: 한줄요약, link: 상세URL}
+{
+  "id": "문자열 형태의 고유ID(숫자만 있더라도 반드시 문자열 따옴표로 감싸서 출력)",
+  "title": "서비스명",
+  "category": "'행사' 또는 '혜택'",
+  "startDate": "YYYY-MM-DD",
+  "endDate": "YYYY-MM-DD",
+  "location": "장소 또는 기관명",
+  "target": "지원대상",
+  "summary": "한줄요약",
+  "link": "상세URL",
+  "tags": ["키워드1", "키워드2", "키워드3"]
+}
 category는 내용을 보고 행사/축제면 '행사', 지원금/서비스면 '혜택'으로 판단해.
 startDate가 없으면 오늘 날짜, endDate가 없으면 '상시'로 넣어.
 반드시 JSON 객체만 출력해. 다른 텍스트 없이.
@@ -141,6 +152,16 @@ ${JSON.stringify(newCandidate, null, 2)}`;
     newItem = JSON.parse(cleanedText);
   } catch (err) {
     throw new Error(`Gemini 응답 JSON 파싱 실패: ${err.message}\n응답 내용:\n${rawText}`);
+  }
+
+  // Next.js 정적 빌드 및 화면 오류 방지를 위한 정규화
+  newItem.id = String(newItem.id || Date.now());
+  newItem.title = newItem.title || newItem.name || targetName;
+  newItem.name = newItem.title;
+  if (!Array.isArray(newItem.tags)) {
+    newItem.tags = typeof newItem.tags === 'string'
+      ? newItem.tags.split(',').map(t => t.trim())
+      : ['생활정보', newItem.category || '혜택'];
   }
 
   // [4단계] 기존 데이터에 추가

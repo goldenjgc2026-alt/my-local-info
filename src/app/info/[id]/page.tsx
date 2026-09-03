@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import localData from "../../../../public/data/local-info.json";
 
 interface InfoItem {
-  id: string;
-  title: string;
+  id: string | number;
+  title?: string;
+  name?: string;
   category: "행사" | "혜택";
   startDate: string;
   endDate: string;
@@ -15,12 +16,12 @@ interface InfoItem {
   summary: string;
   description?: string;
   link: string;
-  tags: string[];
+  tags?: string[];
 }
 
 export function generateStaticParams() {
   return localData.items.map((item) => ({
-    id: item.id,
+    id: String(item.id),
   }));
 }
 
@@ -30,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const item = localData.items.find((i) => i.id === id) as InfoItem | undefined;
+  const item = localData.items.find((i) => String(i.id) === String(id)) as InfoItem | undefined;
 
   if (!item) {
     return {
@@ -38,8 +39,10 @@ export async function generateMetadata({
     };
   }
 
+  const title = item.title || item.name || "생활 정보";
+
   return {
-    title: `${item.title} - 성남시 생활 정보`,
+    title: `${title} - 성남시 생활 정보`,
     description: item.summary,
   };
 }
@@ -50,12 +53,13 @@ export default async function DetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const item = localData.items.find((i) => i.id === id) as InfoItem | undefined;
+  const item = localData.items.find((i) => String(i.id) === String(id)) as InfoItem | undefined;
 
   if (!item) {
     notFound();
   }
 
+  const title = item.title || item.name || "생활 정보";
   const isEvent = item.category === "행사";
 
   return (
@@ -126,7 +130,7 @@ export default async function DetailPage({
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
-              {item.title}
+              {title}
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">

@@ -2,8 +2,9 @@ import Link from "next/link";
 import localData from "../../public/data/local-info.json";
 
 interface InfoItem {
-  id: string;
-  title: string;
+  id: string | number;
+  title?: string;
+  name?: string;
   category: "행사" | "혜택";
   startDate: string;
   endDate: string;
@@ -11,7 +12,7 @@ interface InfoItem {
   target: string;
   summary: string;
   link: string;
-  tags: string[];
+  tags?: string[];
 }
 
 export default function HomePage() {
@@ -113,63 +114,66 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {events.map((event) => (
-              <article
-                key={event.id}
-                className="group flex flex-col justify-between bg-white rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-amber-100 hover:border-amber-300"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-lg">
-                      {event.category}
-                    </span>
-                    <span className="text-xs font-medium text-slate-400">
-                      📅 {event.startDate === event.endDate ? event.startDate : `${event.startDate} ~ ${event.endDate}`}
-                    </span>
-                  </div>
-
-                  <Link href="/blog" className="block">
-                    <h4 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug">
-                      {event.title}
-                    </h4>
-                  </Link>
-
-                  <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed">
-                    {event.summary}
-                  </p>
-
-                  <div className="pt-2 space-y-1.5 text-xs text-slate-500 border-t border-slate-100">
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-amber-600 font-semibold shrink-0">📍 장소:</span>
-                      <span className="line-clamp-1">{event.location}</span>
-                    </div>
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-amber-600 font-semibold shrink-0">👥 대상:</span>
-                      <span className="line-clamp-1">{event.target}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-3 flex items-center justify-between border-t border-slate-100">
-                  <div className="flex flex-wrap gap-1">
-                    {event.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium"
-                      >
-                        #{tag}
+            {events.map((event) => {
+              const eventTitle = event.title || event.name || "행사 안내";
+              return (
+                <article
+                  key={String(event.id)}
+                  className="group flex flex-col justify-between bg-white rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-amber-100 hover:border-amber-300"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-lg">
+                        {event.category}
                       </span>
-                    ))}
+                      <span className="text-xs font-medium text-slate-400">
+                        📅 {event.startDate === event.endDate ? event.startDate : `${event.startDate} ~ ${event.endDate}`}
+                      </span>
+                    </div>
+
+                    <Link href={`/info/${event.id}`} className="block">
+                      <h4 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug">
+                        {eventTitle}
+                      </h4>
+                    </Link>
+
+                    <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                      {event.summary}
+                    </p>
+
+                    <div className="pt-2 space-y-1.5 text-xs text-slate-500 border-t border-slate-100">
+                      <div className="flex items-start gap-1.5">
+                        <span className="text-amber-600 font-semibold shrink-0">📍 장소:</span>
+                        <span className="line-clamp-1">{event.location}</span>
+                      </div>
+                      <div className="flex items-start gap-1.5">
+                        <span className="text-amber-600 font-semibold shrink-0">👥 대상:</span>
+                        <span className="line-clamp-1">{event.target}</span>
+                      </div>
+                    </div>
                   </div>
-                  <Link
-                    href="/blog"
-                    className="inline-flex items-center text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline shrink-0 ml-2"
-                  >
-                    자세히 보기 &rarr;
-                  </Link>
-                </div>
-              </article>
-            ))}
+
+                  <div className="mt-5 pt-3 flex items-center justify-between border-t border-slate-100">
+                    <div className="flex flex-wrap gap-1">
+                      {(event.tags || []).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href={`/info/${event.id}`}
+                      className="inline-flex items-center text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline shrink-0 ml-2"
+                    >
+                      자세히 보기 &rarr;
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 
@@ -193,63 +197,66 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {benefits.map((benefit) => (
-              <article
-                key={benefit.id}
-                className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-emerald-100 hover:border-emerald-300"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-3 py-1 text-xs font-bold bg-emerald-100 text-emerald-800 rounded-lg">
-                      {benefit.category}
-                    </span>
-                    <span className="text-xs font-medium text-slate-400">
-                      신청 기간: {benefit.startDate} ~ {benefit.endDate}
-                    </span>
-                  </div>
-
-                  <Link href="/blog" className="block">
-                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
-                      {benefit.title}
-                    </h4>
-                  </Link>
-
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {benefit.summary}
-                  </p>
-
-                  <div className="rounded-xl bg-emerald-50/70 p-3.5 space-y-2 text-xs border border-emerald-200/60">
-                    <div className="flex items-start gap-2">
-                      <span className="font-bold text-emerald-900 shrink-0">📌 신청 대상:</span>
-                      <span className="text-slate-700 leading-tight">{benefit.target}</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="font-bold text-emerald-900 shrink-0">🏢 신청 방법:</span>
-                      <span className="text-slate-700 leading-tight">{benefit.location}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-4 flex items-center justify-between border-t border-slate-100">
-                  <div className="flex flex-wrap gap-1.5">
-                    {benefit.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/50"
-                      >
-                        #{tag}
+            {benefits.map((benefit) => {
+              const benefitTitle = benefit.title || benefit.name || "혜택 안내";
+              return (
+                <article
+                  key={String(benefit.id)}
+                  className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-emerald-100 hover:border-emerald-300"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-3 py-1 text-xs font-bold bg-emerald-100 text-emerald-800 rounded-lg">
+                        {benefit.category}
                       </span>
-                    ))}
+                      <span className="text-xs font-medium text-slate-400">
+                        신청 기간: {benefit.startDate} ~ {benefit.endDate}
+                      </span>
+                    </div>
+
+                    <Link href={`/info/${benefit.id}`} className="block">
+                      <h4 className="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                        {benefitTitle}
+                      </h4>
+                    </Link>
+
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {benefit.summary}
+                    </p>
+
+                    <div className="rounded-xl bg-emerald-50/70 p-3.5 space-y-2 text-xs border border-emerald-200/60">
+                      <div className="flex items-start gap-2">
+                        <span className="font-bold text-emerald-900 shrink-0">📌 신청 대상:</span>
+                        <span className="text-slate-700 leading-tight">{benefit.target}</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="font-bold text-emerald-900 shrink-0">🏢 신청 방법:</span>
+                        <span className="text-slate-700 leading-tight">{benefit.location}</span>
+                      </div>
+                    </div>
                   </div>
-                  <Link
-                    href="/blog"
-                    className="inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 hover:underline shrink-0 ml-2"
-                  >
-                    자세히 보기 &rarr;
-                  </Link>
-                </div>
-              </article>
-            ))}
+
+                  <div className="mt-5 pt-4 flex items-center justify-between border-t border-slate-100">
+                    <div className="flex flex-wrap gap-1.5">
+                      {(benefit.tags || []).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/50"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href={`/info/${benefit.id}`}
+                      className="inline-flex items-center text-xs font-bold text-emerald-700 hover:text-emerald-900 hover:underline shrink-0 ml-2"
+                    >
+                      자세히 보기 &rarr;
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 
