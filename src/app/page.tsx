@@ -94,45 +94,69 @@ export default function HomePage() {
           <div className="absolute -right-10 -bottom-10 w-48 h-48 sm:w-64 sm:h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
         </section>
 
-        {/* 1. 이번 달 행사/축제 섹션 */}
+        {/* 1. 다가오는 행사/축제 섹션 */}
         <section id="events" className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-amber-200/80 pb-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🎉</span>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  이번 달 행사 & 축제
+                  다가오는 축제 & 문화 행사
                 </h3>
               </div>
               <p className="text-sm text-slate-600 mt-1">
-                가족, 친구, 연인과 함께 즐길 수 있는 광명시 주요 문화 행사입니다.
+                가족, 친구, 연인과 함께 가볼 만한 광명시 최신 예정 행사입니다.
               </p>
             </div>
             <span className="text-xs font-semibold text-amber-700 bg-amber-100/80 px-3 py-1 rounded-full self-start sm:self-auto">
-              총 {events.length}개의 행사
+              총 {events.length}개의 최신 행사
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {events.map((event) => {
               const eventTitle = event.title || event.name || "행사 안내";
+              
+              // D-Day 및 행사 상태 계산
+              const todayStr = "2026-09-06";
+              let statusBadge = { label: "예정", className: "bg-blue-500 text-white" };
+              if (event.endDate && event.endDate < todayStr) {
+                statusBadge = { label: "종료", className: "bg-slate-200 text-slate-600" };
+              } else if (event.startDate && event.endDate && event.startDate <= todayStr && todayStr <= event.endDate) {
+                statusBadge = { label: "진행중", className: "bg-emerald-500 text-white animate-pulse" };
+              } else if (event.startDate) {
+                const start = new Date(event.startDate);
+                const today = new Date(todayStr);
+                const diffDays = Math.ceil((start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                if (diffDays === 0) {
+                  statusBadge = { label: "오늘 시작", className: "bg-rose-500 text-white font-bold" };
+                } else if (diffDays > 0) {
+                  statusBadge = { label: `D-${diffDays}`, className: "bg-amber-500 text-white font-black" };
+                }
+              }
+
               return (
                 <article
                   key={String(event.id)}
-                  className="group flex flex-col justify-between bg-white rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-amber-100 hover:border-amber-300"
+                  className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-amber-100 hover:border-amber-300"
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-lg">
-                        {event.category}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-800 rounded-lg">
+                          {event.category}
+                        </span>
+                        <span className={`px-2.5 py-0.5 text-xs font-extrabold rounded-md ${statusBadge.className}`}>
+                          {statusBadge.label}
+                        </span>
+                      </div>
                       <span className="text-xs font-medium text-slate-400">
                         📅 {event.startDate === event.endDate ? event.startDate : `${event.startDate} ~ ${event.endDate}`}
                       </span>
                     </div>
 
                     <Link href={`/info/${event.id}`} className="block">
-                      <h4 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug">
+                      <h4 className="text-xl font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug">
                         {eventTitle}
                       </h4>
                     </Link>
