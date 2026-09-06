@@ -73,20 +73,28 @@ tags: [태그1, 태그2, 태그3]
 
   console.log('Gemini AI 블로그 글 생성 요청 중...');
 
-  const geminiResponse = await fetch(geminiEndpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [{ text: prompt }]
-        }
-      ]
-    })
-  });
+  let geminiResponse;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    geminiResponse = await fetch(geminiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ]
+      })
+    });
 
-  if (!geminiResponse.ok) {
-    throw new Error(`Gemini API 요청 실패: ${geminiResponse.status} ${geminiResponse.statusText}`);
+    if (geminiResponse.ok) break;
+
+    if ((geminiResponse.status === 503 || geminiResponse.status === 429) && attempt < 3) {
+      console.log(`Gemini API 일시 오류 (${geminiResponse.status}), ${attempt * 4}초 후 재시도... (${attempt}/3)`);
+      await new Promise(r => setTimeout(r, attempt * 4000));
+    } else {
+      throw new Error(`Gemini API 요청 실패: ${geminiResponse.status} ${geminiResponse.statusText}`);
+    }
   }
 
   const geminiResult = await geminiResponse.json();
@@ -111,6 +119,14 @@ tags: [태그1, 태그2, 태그3]
     fileName = `${today}-service.md`;
   }
 
+  // YAML Frontmatter의 title과 summary를 안전하게 큰따옴표로 감싸기
+  rawText = rawText.replace(/^(title:\s*)([^\r\n"'].*)$/m, (match, p1, p2) => {
+    return `${p1}"${p2.replace(/"/g, '\\"')}"`;
+  });
+  rawText = rawText.replace(/^(summary:\s*)([^\r\n"'].*)$/m, (match, p1, p2) => {
+    return `${p1}"${p2.replace(/"/g, '\\"')}"`;
+  });
+
   // [3단계] 파일 저장
   const savePath = path.join(postsDirPath, fileName);
   fs.writeFileSync(savePath, rawText, 'utf8');
@@ -118,6 +134,6 @@ tags: [태그1, 태그2, 태그3]
 }
 
 main().catch(err => {
-  console.error('블로그 글 생성 중 에러 발생:', err.message);
-  process.exit(1);
+  console.warn('블로그 글 생성 중 에러 발생 (건너뛰고 계속 진행):', err.message);
+  process.exit(0);
 });

@@ -50,7 +50,24 @@ export function getAllPosts(): PostData[] {
       const slug = fileName.replace(/\.md$/, "");
       const fullPath = path.join(postsDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContents);
+      
+      let data: Record<string, any> = {};
+      let content = "";
+      try {
+        const parsed = matter(fileContents);
+        data = parsed.data || {};
+        content = parsed.content || "";
+      } catch {
+        // YAML 파싱 실패 시 정규식으로 직접 추출
+        const titleMatch = fileContents.match(/^title:\s*["']?(.*?)["']?$/m);
+        const summaryMatch = fileContents.match(/^summary:\s*["']?(.*?)["']?$/m);
+        const dateMatch = fileContents.match(/^date:\s*(.*)$/m);
+        data = {
+          title: titleMatch ? titleMatch[1].trim() : slug,
+          summary: summaryMatch ? summaryMatch[1].trim() : "",
+          date: dateMatch ? dateMatch[1].trim() : "",
+        };
+      }
 
       const formattedDate = formatDate(data.date);
 
@@ -99,7 +116,23 @@ export function getPostBySlug(slug: string): PostData | null {
       return null;
     }
     const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
+    let data: Record<string, any> = {};
+    let content = "";
+    try {
+      const parsed = matter(fileContents);
+      data = parsed.data || {};
+      content = parsed.content || "";
+    } catch {
+      const titleMatch = fileContents.match(/^title:\s*["']?(.*?)["']?$/m);
+      const summaryMatch = fileContents.match(/^summary:\s*["']?(.*?)["']?$/m);
+      const dateMatch = fileContents.match(/^date:\s*(.*)$/m);
+      data = {
+        title: titleMatch ? titleMatch[1].trim() : slug,
+        summary: summaryMatch ? summaryMatch[1].trim() : "",
+        date: dateMatch ? dateMatch[1].trim() : "",
+      };
+      content = fileContents.replace(/^---[\s\S]*?---/, "").trim();
+    }
 
     const formattedDate = formatDate(data.date);
 

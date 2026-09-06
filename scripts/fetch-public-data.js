@@ -164,14 +164,16 @@ ${JSON.stringify(newCandidate, null, 2)}`;
       : ['생활정보', newItem.category || '혜택'];
   }
 
-  // [4단계] 기존 데이터에 추가
+  // [4단계] 기존 데이터에 추가 및 업데이트 날짜 갱신
   localData.items.push(newItem);
+  localData.lastUpdated = new Date().toISOString().split('T')[0];
 
   fs.writeFileSync(dataFilePath, JSON.stringify(localData, null, 2), 'utf8');
   console.log('새로운 공공데이터 항목이 성공적으로 추가되었습니다.');
 }
 
 main().catch(err => {
-  console.error('작업 수행 중 에러 발생 (기존 데이터 유지):', err.message);
-  process.exit(1);
+  console.warn('작업 수행 중 에러 발생 (기존 데이터 유지 후 계속 진행):', err.message);
+  // 외부 API 일시 오류로 전체 배포가 멈추지 않도록 안전하게 종료합니다.
+  process.exit(0);
 });
