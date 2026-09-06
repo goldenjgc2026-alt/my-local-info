@@ -35,14 +35,14 @@ export async function generateMetadata({
 
   if (!item) {
     return {
-      title: "정보를 찾을 수 없습니다 - 성남시 생활 정보",
+      title: "정보를 찾을 수 없습니다 - 광명시 생활 정보",
     };
   }
 
   const title = item.title || item.name || "생활 정보";
 
   return {
-    title: `${title} - 성남시 생활 정보`,
+    title: `${title} - 광명시 생활 정보`,
     description: item.summary,
   };
 }
@@ -125,7 +125,7 @@ export default async function DetailPage({
                 {item.category}
               </span>
               <span className="text-xs text-slate-400 font-medium">
-                등록 기준: 성남시 공공데이터
+                등록 기준: 광명시 공공데이터
               </span>
             </div>
 
@@ -259,7 +259,7 @@ export default async function DetailPage({
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="space-y-1 text-center sm:text-left">
             <p className="font-semibold text-slate-700">
-              우리 동네 생활 정보 (성남시)
+              우리 동네 생활 정보 (광명시)
             </p>
             <p>데이터 출처: 공공데이터포털 (data.go.kr)</p>
           </div>

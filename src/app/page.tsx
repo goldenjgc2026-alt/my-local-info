@@ -35,10 +35,10 @@ export default function HomePage() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  성남시 생활 정보
+                  광명시 생활 정보
                 </h1>
                 <span className="px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full border border-amber-300">
-                  성남시 소식
+                  광명시 소식
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium">
@@ -77,7 +77,7 @@ export default function HomePage() {
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 text-white p-6 sm:p-10 shadow-xl shadow-amber-900/10">
           <div className="relative z-10 max-w-2xl space-y-3">
             <span className="inline-block px-3 py-1 text-xs font-bold bg-white/20 backdrop-blur-md rounded-full border border-white/30 tracking-wide uppercase">
-              ✨ 성남시민 생활 나침반
+              ✨ 광명시민 생활 나침반
             </span>
             <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight">
               놓치면 아쉬운 <br className="hidden sm:inline" />
@@ -87,7 +87,7 @@ export default function HomePage() {
               을 확인하세요!
             </h2>
             <p className="text-amber-100 text-sm sm:text-base leading-relaxed">
-              공공데이터포털을 통해 매일 엄선된 성남시 축제 일정과 놓치기 쉬운
+              공공데이터포털을 통해 매일 엄선된 광명시 축제 일정과 놓치기 쉬운
               청년·가족 지원금 정보를 정리해 드립니다.
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                 </h3>
               </div>
               <p className="text-sm text-slate-600 mt-1">
-                가족, 친구, 연인과 함께 즐길 수 있는 성남시 주요 문화 행사입니다.
+                가족, 친구, 연인과 함께 즐길 수 있는 광명시 주요 문화 행사입니다.
               </p>
             </div>
             <span className="text-xs font-semibold text-amber-700 bg-amber-100/80 px-3 py-1 rounded-full self-start sm:self-auto">
@@ -188,7 +188,7 @@ export default function HomePage() {
                 </h3>
               </div>
               <p className="text-sm text-slate-600 mt-1">
-                성남시민과 청년, 가정을 위한 맞춤 복지 및 보조금 지원 정보입니다.
+                광명시민과 청년, 가정을 위한 맞춤 복지 및 보조금 지원 정보입니다.
               </p>
             </div>
             <span className="text-xs font-semibold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full self-start sm:self-auto">
@@ -284,7 +284,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="space-y-1 text-center sm:text-left">
             <p className="font-semibold text-slate-700">
-              우리 동네 생활 정보 (성남시)
+              우리 동네 생활 정보 (광명시)
             </p>
             <p>
               데이터 출처:{" "}

@@ -3,8 +3,8 @@ import { getAllPosts } from "@/lib/posts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "동네 소식 블로그 - 성남시 생활 정보",
-  description: "성남시의 최신 축제, 행사, 혜택 및 알찬 생활 꿀팁을 전해드리는 블로그입니다.",
+  title: "동네 소식 블로그 - 광명시 생활 정보",
+  description: "광명시의 최신 축제, 행사, 혜택 및 알찬 생활 꿀팁을 전해드리는 블로그입니다.",
 };
 
 export default function BlogListPage() {
@@ -22,7 +22,7 @@ export default function BlogListPage() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  성남시 생활 정보
+                  광명시 생활 정보
                 </span>
                 <span className="px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full border border-amber-300">
                   블로그
@@ -62,7 +62,7 @@ export default function BlogListPage() {
             </h1>
           </div>
           <p className="text-sm sm:text-base text-slate-600">
-            성남시의 유용한 정책 소식과 가볼 만한 축제 이야기를 읽기 쉽게 전달해 드립니다.
+            광명시의 유용한 정책 소식과 가볼 만한 축제 이야기를 읽기 쉽게 전달해 드립니다.
           </p>
         </section>
 
@@ -144,7 +144,7 @@ export default function BlogListPage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="space-y-1 text-center sm:text-left">
             <p className="font-semibold text-slate-700">
-              우리 동네 생활 정보 (성남시)
+              우리 동네 생활 정보 (광명시)
             </p>
             <p>공공데이터포털 기반 로컬 소식 알리미</p>
           </div>

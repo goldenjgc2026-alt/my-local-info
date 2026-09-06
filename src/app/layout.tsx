@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "성남시 생활 정보 - 우리 동네 축제·행사 & 지원금 혜택",
+  title: "광명시 생활 정보 - 우리 동네 축제·행사 & 지원금 혜택",
   description:
-    "공공데이터포털 기반 성남시의 최신 축제/행사 일정과 맞춤형 복지·청년·출산 지원금 혜택을 한눈에 확인하세요.",
+    "공공데이터포털 기반 광명시의 최신 축제/행사 일정과 맞춤형 복지·청년·출산 지원금 혜택을 한눈에 확인하세요.",
 };
 
 export default function RootLayout({

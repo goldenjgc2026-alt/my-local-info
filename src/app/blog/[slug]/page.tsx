@@ -26,12 +26,12 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "글을 찾을 수 없습니다 - 성남시 생활 정보",
+      title: "글을 찾을 수 없습니다 - 광명시 생활 정보",
     };
   }
 
   return {
-    title: `${post.title} - 성남시 생활 정보`,
+    title: `${post.title} - 광명시 생활 정보`,
     description: post.summary || post.title,
   };
 }
@@ -157,7 +157,7 @@ export default async function BlogDetailPage({
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="space-y-1 text-center sm:text-left">
             <p className="font-semibold text-slate-700">
-              우리 동네 생활 정보 (성남시)
+              우리 동네 생활 정보 (광명시)
             </p>
             <p>공공데이터포털 기반 로컬 소식 알리미</p>
           </div>
