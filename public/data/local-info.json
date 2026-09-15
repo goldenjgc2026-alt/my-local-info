@@ -1,6 +1,6 @@
 {
   "region": "광명시",
-  "lastUpdated": "2026-09-14",
+  "lastUpdated": "2026-09-15",
   "source": "공공데이터포털 (data.go.kr)",
   "items": [
     {
@@ -358,6 +358,25 @@
         "운영자금"
       ],
       "name": "어업경영자금 지원"
+    },
+    {
+      "id": "119200000053",
+      "title": "TAC 참여어업인 경영개선자금 지원",
+      "category": "혜택",
+      "startDate": "2024-05-25",
+      "endDate": "상시",
+      "location": "해양수산부",
+      "target": "TAC 참여 어업인(단, 제주도 소라 채취 어업인 및 TAC 참여 1단계 어업인은 제외)",
+      "summary": "TAC 참여 어업인에게 경영개선자금 융자지원",
+      "link": "https://www.gov.kr/portal/rcvfvrSvc/dtlEx/119200000053",
+      "tags": [
+        "TAC",
+        "어업인",
+        "경영개선자금",
+        "융자지원",
+        "해양수산부"
+      ],
+      "name": "TAC 참여어업인 경영개선자금 지원"
     }
   ]
 }
